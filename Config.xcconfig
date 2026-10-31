@@ -1,0 +1,18 @@
+// Config.xcconfig — shared build settings for all targets.
+// Put YOUR values in Local.xcconfig (copy Local.xcconfig.example); it is gitignored.
+
+ABD_BUNDLE_PREFIX = com.example.change-me
+DEVELOPMENT_TEAM =
+
+#include? "Local.xcconfig"
+
+ABD_APP_GROUP = group.$(ABD_BUNDLE_PREFIX).adblockdark
+// Empty unless you build the optional overflow Content Blocker (make project-overflow).
+ABD_OVERFLOW_ID =
+
+IPHONEOS_DEPLOYMENT_TARGET = 26.0
+MARKETING_VERSION = 1.0
+CURRENT_PROJECT_VERSION = 1
+SWIFT_VERSION = 5.0
+CODE_SIGN_STYLE = Automatic
+TARGETED_DEVICE_FAMILY = 1,2

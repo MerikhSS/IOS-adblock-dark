@@ -1,0 +1,10 @@
+// Copy to Local.xcconfig and fill in. Local.xcconfig is gitignored.
+//
+// ABD_BUNDLE_PREFIX: any reverse-DNS prefix unique to you, e.g. com.bohdan.adblock
+//   (free accounts can't use a prefix someone else already registered).
+// DEVELOPMENT_TEAM: your Personal Team ID. Find it in Xcode › Settings › Accounts ›
+//   (your Apple ID) › Personal Team, or leave empty and pick the team in each
+//   target's Signing & Capabilities tab.
+
+ABD_BUNDLE_PREFIX = com.yourname.adblock
+DEVELOPMENT_TEAM =

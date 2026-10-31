@@ -1,0 +1,89 @@
+# XcodeGen spec — generates AdBlockDark.xcodeproj reproducibly.
+#   brew install xcodegen
+#   make project            (or: xcodegen generate)
+# Lines starting with "#OVERFLOW#" are enabled by `make project-overflow`, which
+# adds the optional overflow Content Blocker target (costs one more App ID).
+name: AdBlockDark
+options:
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+  groupSortPosition: top
+configFiles:
+  Debug: Config.xcconfig
+  Release: Config.xcconfig
+#OVERFLOW#settings:
+#OVERFLOW#  base:
+#OVERFLOW#    ABD_OVERFLOW_ID: $(ABD_BUNDLE_PREFIX).adblockdark.overflow1
+
+targets:
+  AdBlockDark:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_NAME: AdBlockDark
+        PRODUCT_BUNDLE_IDENTIFIER: $(ABD_BUNDLE_PREFIX).adblockdark
+        INFOPLIST_FILE: App/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: App/AdBlockDark.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    dependencies:
+      - target: AdBlockDarkExtension
+        embed: true
+#OVERFLOW#      - target: AdBlockDarkOverflow1
+#OVERFLOW#        embed: true
+
+  AdBlockDarkExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: WebExtension/SafariWebExtensionHandler.swift
+      - path: Shared
+      # Web extension resources: files at the bundle root, folders as folder references
+      # (Safari expects manifest.json at the root of the extension's Resources).
+      - path: WebExtension/Resources/manifest.json
+        buildPhase: resources
+      - { path: WebExtension/Resources/_locales,   type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/background, type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/content,    type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/cosmetic,   type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/images,     type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/lib,        type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/options,    type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/popup,      type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/rules,      type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/scriptlets, type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/surrogates, type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/ui,         type: folder, buildPhase: resources }
+      - { path: WebExtension/Resources/vendor,     type: folder, buildPhase: resources }
+    settings:
+      base:
+        PRODUCT_NAME: AdBlockDarkExtension
+        PRODUCT_BUNDLE_IDENTIFIER: $(ABD_BUNDLE_PREFIX).adblockdark.extension
+        INFOPLIST_FILE: WebExtension/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        CODE_SIGN_ENTITLEMENTS: WebExtension/AdBlockDarkExtension.entitlements
+        SKIP_INSTALL: YES
+
+#OVERFLOW#  AdBlockDarkOverflow1:
+#OVERFLOW#    type: app-extension
+#OVERFLOW#    platform: iOS
+#OVERFLOW#    sources:
+#OVERFLOW#      - path: ContentBlockerOverflow1/ContentBlockerRequestHandler.swift
+#OVERFLOW#      - path: Shared
+#OVERFLOW#      - path: ContentBlockerOverflow1/blockerList.json
+#OVERFLOW#        buildPhase: resources
+#OVERFLOW#    settings:
+#OVERFLOW#      base:
+#OVERFLOW#        PRODUCT_NAME: AdBlockDarkOverflow1
+#OVERFLOW#        PRODUCT_BUNDLE_IDENTIFIER: $(ABD_BUNDLE_PREFIX).adblockdark.overflow1
+#OVERFLOW#        INFOPLIST_FILE: ContentBlockerOverflow1/Info.plist
+#OVERFLOW#        GENERATE_INFOPLIST_FILE: NO
+#OVERFLOW#        CODE_SIGN_ENTITLEMENTS: ContentBlockerOverflow1/AdBlockDarkOverflow1.entitlements
+#OVERFLOW#        SKIP_INSTALL: YES
