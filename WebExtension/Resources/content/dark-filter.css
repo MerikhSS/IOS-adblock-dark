@@ -1,0 +1,56 @@
+/*
+ * dark-filter.css — "filter" dark engine. Registered with
+ * scripting.registerContentScripts (runAt document_start, top frame only) for
+ * hosts where dark mode is on, so Safari applies it BEFORE first paint:
+ * no white flash, no async storage read on the critical path.
+ *
+ * Approach: invert the whole page and rotate hues back, then re-invert media
+ * so photos/videos keep their real colors. The root element is exempt from
+ * the "filter creates a containing block for position:fixed" rule, so sticky
+ * headers keep working.
+ *
+ * Tunables are CSS variables set by content/dark.js from settings:
+ *   --abd-inv (strength), --abd-br (brightness), --abd-ct (contrast), --abd-sp (sepia)
+ */
+html:not([data-abd-dark-off]) {
+  filter: invert(var(--abd-inv, 0.9)) hue-rotate(180deg) brightness(var(--abd-br, 1)) contrast(var(--abd-ct, 1)) sepia(var(--abd-sp, 0)) !important;
+  background-color: #fff !important;
+}
+
+/* Re-invert media and embedded players so they look normal. */
+html:not([data-abd-dark-off]) :is(
+  img:not([src*=".svg"]):not([src^="data:image/svg"]),
+  picture,
+  video,
+  canvas,
+  embed,
+  object,
+  svg image,
+  [data-abd-bg],
+  iframe[src*="youtube.com/embed"],
+  iframe[src*="youtube-nocookie.com"],
+  iframe[src*="player.vimeo.com"],
+  iframe[src*="dailymotion.com/embed"],
+  iframe[src*="player.twitch.tv"],
+  iframe[src*="google.com/maps"],
+  iframe[src*="open.spotify.com"]
+) {
+  filter: invert(1) hue-rotate(180deg) !important;
+}
+
+/* Never double re-invert nested media (e.g. <img> inside <picture> or a background-image box).
+   :not(#abd-none) only raises specificity above the rule above. */
+html:not([data-abd-dark-off]) :is(picture, video, canvas, [data-abd-bg]) :is(img, picture, video, canvas, [data-abd-bg]):not(#abd-none) {
+  filter: none !important;
+}
+
+/* Fullscreen video is rendered in the top layer; keep it untouched. */
+html:not([data-abd-dark-off]) :is(video, [data-abd-bg]):fullscreen:not(#abd-none) {
+  filter: none !important;
+}
+
+/* Scrollbars & selection look odd inverted; keep them neutral. */
+html:not([data-abd-dark-off]) ::selection {
+  background: #9ccaff;
+  color: #000;
+}

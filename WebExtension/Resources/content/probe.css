@@ -1,0 +1,2 @@
+/* Used only by the capability probe to test excludeMatches registration. */
+html[data-abd-probe-never] { outline: 0; }

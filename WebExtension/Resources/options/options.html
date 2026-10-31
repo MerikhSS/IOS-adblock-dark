@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../ui/common.css">
+  <link rel="stylesheet" href="options.css">
+  <title>AdBlock Dark – Settings</title>
+</head>
+<body>
+  <h1>AdBlock Dark</h1>
+  <nav class="segmented" id="tabs">
+    <button data-tab="lists" aria-checked="true">Lists</button>
+    <button data-tab="rules">My rules</button>
+    <button data-tab="allow">Allowlist</button>
+    <button data-tab="dark">Dark</button>
+    <button data-tab="stats">Stats</button>
+    <button data-tab="diag">Diagnostics</button>
+  </nav>
+
+  <!-- Lists -->
+  <section data-panel="lists">
+    <div class="card">
+      <label class="row"><span><strong>Pause all blocking</strong><small>Disables every list and custom rule</small></span><input type="checkbox" class="switch" id="paused"></label>
+    </div>
+    <div class="card">
+      <div class="row column">
+        <strong>Rule budget</strong>
+        <div class="meter"><div id="budget-bar"></div></div>
+        <small id="budget-text"></small>
+      </div>
+    </div>
+    <div class="card" id="lists"></div>
+    <p class="note">Lists are bundled with the app. To update them, run <code>make lists</code> on your Mac and rebuild (do it at the weekly re-sign). Built: <span id="built"></span></p>
+  </section>
+
+  <!-- Custom rules -->
+  <section data-panel="rules" hidden>
+    <div class="card">
+      <div class="row column">
+        <strong>My filters</strong>
+        <small>uBlock/AdBlock syntax, one per line. Examples:<br>
+          <code>||ads.example.com^</code> block a domain ·
+          <code>example.com##.banner</code> hide an element ·
+          <code>@@||example.com^$document</code> allow a site ·
+          <code>example.com##+js(set-constant, adsEnabled, false)</code> scriptlet</small>
+        <textarea id="custom" spellcheck="false" autocapitalize="off" autocomplete="off" rows="14"></textarea>
+        <button class="btn" id="save-custom">Save &amp; apply</button>
+        <div id="custom-errors" class="errors"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Allowlist -->
+  <section data-panel="allow" hidden>
+    <div class="card">
+      <div class="row column">
+        <strong>Sites where blocking is off</strong>
+        <small>Subdomains are included. Use the popup on a site for one tap.</small>
+        <div class="add"><input id="allow-input" placeholder="example.com" autocapitalize="off" autocomplete="off"><button class="btn" id="allow-add">Add</button></div>
+      </div>
+      <div id="allow-list"></div>
+    </div>
+  </section>
+
+  <!-- Dark -->
+  <section data-panel="dark" hidden>
+    <div class="card">
+      <label class="row"><span><strong>Dark mode by default</strong><small>For every site without its own setting</small></span><input type="checkbox" class="switch" id="dark-default"></label>
+      <div class="row column">
+        <strong>Default engine</strong>
+        <div class="segmented" id="dark-engine">
+          <button data-v="filter">Filter (fast)</button>
+          <button data-v="dynamic">Dynamic (Dark Reader)</button>
+        </div>
+        <small>Filter inverts the page and re-inverts media: instant, no flash, occasionally imperfect. Dynamic rewrites the site's colors: prettier, a bit heavier.</small>
+      </div>
+      <label class="row"><span><strong>Skip sites that are already dark</strong><small id="native-count"></small></span><input type="checkbox" class="switch" id="dark-auto"></label>
+      <div class="row column"><strong>Brightness <span id="br-v"></span></strong><input type="range" id="dark-br" min="50" max="150" step="5"></div>
+      <div class="row column"><strong>Contrast <span id="ct-v"></span></strong><input type="range" id="dark-ct" min="50" max="150" step="5"></div>
+      <div class="row column"><strong>Sepia <span id="sp-v"></span></strong><input type="range" id="dark-sp" min="0" max="100" step="5"></div>
+    </div>
+    <div class="card">
+      <div class="row column"><strong>Per-site settings</strong><small>Change these from the popup on each site.</small></div>
+      <div id="dark-sites"></div>
+    </div>
+    <div class="card"><div class="row"><button class="btn secondary" id="clear-native">Forget auto-detected dark sites</button></div></div>
+  </section>
+
+  <!-- Stats -->
+  <section data-panel="stats" hidden>
+    <div class="card"><div class="row column"><strong>Last 30 days</strong><div id="stats-days"></div></div></div>
+    <div class="card"><div class="row column"><strong>Top sites</strong><div id="stats-sites"></div></div></div>
+    <div class="card"><div class="row"><small>Counts requests blocked by the extension's rules and elements hidden by site-specific rules. Generic hiding and the optional overflow Content Blocker can't report counts.</small></div>
+      <div class="row"><button class="btn secondary" id="reset-stats">Reset stats</button></div></div>
+  </section>
+
+  <!-- Diagnostics -->
+  <section data-panel="diag" hidden>
+    <div class="card">
+      <div class="row column">
+        <strong>Capability probe</strong>
+        <small>Checks what this iPhone's Safari supports. Copy the result and send it to whoever helps you debug.</small>
+        <div class="add"><button class="btn" id="run-probe">Run probe</button><button class="btn secondary" id="copy-probe">Copy</button></div>
+        <div id="probe"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row column"><strong>Host app sync</strong><pre id="sync"></pre>
+        <div class="add"><button class="btn secondary" id="sync-now">Sync now</button><button class="btn secondary" id="reapply">Re-apply all rules</button></div>
+      </div>
+    </div>
+    <div class="card"><div class="row column"><strong>Status</strong><pre id="diag-status"></pre></div></div>
+  </section>
+
+  <p class="status" id="status" role="status"></p>
+  <script src="options.js"></script>
+</body>
+</html>

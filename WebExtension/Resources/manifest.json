@@ -1,0 +1,160 @@
+{
+  "manifest_version": 3,
+  "default_locale": "en",
+  "name": "__MSG_extension_name__",
+  "description": "__MSG_extension_description__",
+  "version": "1.0.0",
+  "icons": {
+    "48": "images/icon-48.png",
+    "96": "images/icon-96.png",
+    "128": "images/icon-128.png",
+    "256": "images/icon-256.png",
+    "512": "images/icon-512.png"
+  },
+  "background": {
+    "scripts": [
+      "lib/regex-subset.js",
+      "lib/filter-parser.js",
+      "lib/dnr-convert.js",
+      "lib/cosmetic-compile.js",
+      "lib/scriptlet-runner.js",
+      "background/settings.js",
+      "background/registrations.js",
+      "background/dnr.js",
+      "background/cosmetic-store.js",
+      "background/stats.js",
+      "background/native-sync.js",
+      "background/main.js"
+    ],
+    "persistent": false
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "images/toolbar-16.png",
+      "19": "images/toolbar-19.png",
+      "32": "images/toolbar-32.png",
+      "38": "images/toolbar-38.png",
+      "48": "images/toolbar-48.png",
+      "72": "images/toolbar-72.png"
+    }
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "declarativeNetRequestFeedback",
+    "storage",
+    "unlimitedStorage",
+    "scripting",
+    "tabs",
+    "webNavigation",
+    "nativeMessaging",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "lib/filter-parser.js",
+        "lib/cosmetic-compile.js",
+        "content/procedural.js",
+        "content/cosmetic.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "surrogates/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ubo-filters",
+        "enabled": true,
+        "path": "rules/ubo-filters.json"
+      },
+      {
+        "id": "ubo-badware",
+        "enabled": true,
+        "path": "rules/ubo-badware.json"
+      },
+      {
+        "id": "ubo-privacy",
+        "enabled": true,
+        "path": "rules/ubo-privacy.json"
+      },
+      {
+        "id": "ubo-unbreak",
+        "enabled": true,
+        "path": "rules/ubo-unbreak.json"
+      },
+      {
+        "id": "ubo-quick-fixes",
+        "enabled": true,
+        "path": "rules/ubo-quick-fixes.json"
+      },
+      {
+        "id": "easylist",
+        "enabled": true,
+        "path": "rules/easylist.json"
+      },
+      {
+        "id": "easyprivacy",
+        "enabled": true,
+        "path": "rules/easyprivacy.json"
+      },
+      {
+        "id": "peter-lowe",
+        "enabled": true,
+        "path": "rules/peter-lowe.json"
+      },
+      {
+        "id": "easylist-germany",
+        "enabled": true,
+        "path": "rules/easylist-germany.json"
+      },
+      {
+        "id": "liste-fr",
+        "enabled": false,
+        "path": "rules/liste-fr.json"
+      },
+      {
+        "id": "easylist-italy",
+        "enabled": false,
+        "path": "rules/easylist-italy.json"
+      },
+      {
+        "id": "easylist-spanish",
+        "enabled": false,
+        "path": "rules/easylist-spanish.json"
+      },
+      {
+        "id": "easylist-dutch",
+        "enabled": false,
+        "path": "rules/easylist-dutch.json"
+      },
+      {
+        "id": "easylist-cookie",
+        "enabled": false,
+        "path": "rules/easylist-cookie.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+/*
+ * dark-dynamic-early.css — injected by Safari before first paint on hosts using
+ * the Dark Reader ("dynamic") engine, so there is no white flash while Dark
+ * Reader analyses the page's stylesheets.
+ */
+html {
+  background-color: #181a1b !important;
+  color-scheme: dark !important;
+}
+html body:not(.darkreader) {
+  background-color: #181a1b;
+}

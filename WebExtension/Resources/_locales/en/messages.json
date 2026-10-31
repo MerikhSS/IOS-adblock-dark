@@ -1,0 +1,10 @@
+{
+  "extension_name": {
+    "message": "AdBlock Dark",
+    "description": "The display name for the extension."
+  },
+  "extension_description": {
+    "message": "Blocks ads and trackers with uBlock-style filter lists, and adds a per-site dark mode.",
+    "description": "Description of what the extension does."
+  }
+}

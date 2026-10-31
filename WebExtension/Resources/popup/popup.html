@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="../ui/common.css">
+  <link rel="stylesheet" href="popup.css">
+  <title>AdBlock Dark</title>
+</head>
+<body>
+  <header>
+    <div class="host" id="host">—</div>
+    <div class="counts" id="counts">&nbsp;</div>
+  </header>
+
+  <section class="card" id="unsupported" hidden>
+    <p>This page can’t be filtered (not a website).</p>
+  </section>
+
+  <section class="card" id="controls">
+    <label class="row">
+      <span>
+        <strong>Block ads on this site</strong>
+        <small id="block-note"></small>
+      </span>
+      <input type="checkbox" class="switch" id="blocking">
+    </label>
+
+    <div class="row column">
+      <strong>Dark mode on this site</strong>
+      <div class="segmented" id="dark-mode" role="radiogroup">
+        <button data-v="default">Default</button>
+        <button data-v="on">On</button>
+        <button data-v="off">Off</button>
+      </div>
+      <small id="dark-note"></small>
+    </div>
+
+    <div class="row column" id="engine-row">
+      <strong>Dark engine for this site</strong>
+      <div class="segmented" id="engine" role="radiogroup">
+        <button data-v="">Default</button>
+        <button data-v="filter">Filter</button>
+        <button data-v="dynamic">Dynamic</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="actions">
+    <button id="pick">Hide an element…</button>
+    <button id="reload">Reload page</button>
+    <button id="options">All settings</button>
+  </section>
+
+  <p class="status" id="status" role="status"></p>
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+:root {
+  --bg: #f2f2f7;
+  --card: #ffffff;
+  --text: #1c1c1e;
+  --muted: #6e6e73;
+  --line: #d1d1d6;
+  --accent: #0a84ff;
+  --danger: #ff3b30;
+  --ok: #34c759;
+  --seg: #e5e5ea;
+  --seg-on: #ffffff;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --card: #1c1c1e;
+    --text: #f2f2f7;
+    --muted: #98989f;
+    --line: #38383a;
+    --seg: #2c2c2e;
+    --seg-on: #636366;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.35 -apple-system, system-ui, sans-serif; }
+button { font: inherit; color: inherit; }
+small { color: var(--muted); display: block; font-size: 12px; margin-top: 2px; }
+.card { background: var(--card); border-radius: 12px; margin: 10px; overflow: hidden; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+.row:last-child { border-bottom: 0; }
+.row.column { flex-direction: column; align-items: stretch; gap: 8px; }
+
+.switch { appearance: none; -webkit-appearance: none; width: 51px; height: 31px; border-radius: 16px; background: var(--seg); position: relative; flex: none; margin: 0; transition: background .2s; }
+.switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,.25); transition: transform .2s; }
+.switch:checked { background: var(--ok); }
+.switch:checked::after { transform: translateX(20px); }
+
+.segmented { display: flex; background: var(--seg); border-radius: 9px; padding: 2px; }
+.segmented button { flex: 1; border: 0; background: transparent; padding: 7px 4px; border-radius: 7px; font-size: 13px; }
+.segmented button[aria-checked="true"] { background: var(--seg-on); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+
+.btn { border: 0; border-radius: 10px; padding: 10px 14px; background: var(--accent); color: #fff; font-weight: 600; }
+.btn.secondary { background: var(--seg); color: var(--text); font-weight: 500; }
+.btn.danger { background: var(--danger); }
