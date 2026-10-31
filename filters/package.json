@@ -1,0 +1,15 @@
+{
+  "name": "adblockdark-filters",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Filter-list → Safari DNR / content-blocker / cosmetic converter for AdBlockDark",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "fetch": "node scripts/fetch.js",
+    "build": "node scripts/build.js && node scripts/validate.js",
+    "lists": "node scripts/fetch.js && node scripts/build.js && node scripts/validate.js",
+    "smoke": "node test-browser/smoke.js",
+    "test": "node --test test/*.test.js"
+  }
+}

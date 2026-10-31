@@ -1,0 +1,38 @@
+{
+  "_comment": "Filter list catalog. 'engine': 'dnr' (Safari Web Extension static ruleset, toggleable on-device) or 'contentBlocker' (overflow Content Blocker extension, needs the optional target). Lists are processed in 'priority' order; when the DNR budget is exceeded, the lowest-priority rules are dropped and reported. 'defaultEnabled' lists must fit together in the budget.",
+  "budget": {
+    "dnrWebKitRules": 135000,
+    "_note": "Safari compiles ALL enabled static + dynamic DNR rules into ONE WebKit content rule list, capped at 150,000 converted rules. 15,000 are reserved for dynamic rules (custom rules + allowlist).",
+    "contentBlockerRules": 149000
+  },
+  "lists": [
+    { "id": "ubo-filters",      "name": "uBlock filters – Ads",            "group": "ads",      "priority": 10, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://ublockorigin.github.io/uAssets/filters/filters.txt" },
+    { "id": "ubo-badware",      "name": "uBlock filters – Badware risks",  "group": "security", "priority": 11, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://ublockorigin.github.io/uAssets/filters/badware.txt" },
+    { "id": "ubo-privacy",      "name": "uBlock filters – Privacy",        "group": "privacy",  "priority": 12, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://ublockorigin.github.io/uAssets/filters/privacy.txt" },
+    { "id": "ubo-unbreak",      "name": "uBlock filters – Unbreak",        "group": "ads",      "priority": 13, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://ublockorigin.github.io/uAssets/filters/unbreak.txt" },
+    { "id": "ubo-quick-fixes",  "name": "uBlock filters – Quick fixes",    "group": "ads",      "priority": 14, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://ublockorigin.github.io/uAssets/filters/quick-fixes.txt" },
+    { "id": "easylist",         "name": "EasyList",                        "group": "ads",      "priority": 20, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://easylist.to/easylist/easylist.txt" },
+    { "id": "easyprivacy",      "name": "EasyPrivacy",                     "group": "privacy",  "priority": 21, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://easylist.to/easylist/easyprivacy.txt" },
+    { "id": "peter-lowe",       "name": "Peter Lowe's Ad and tracking server list", "group": "ads", "priority": 22, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=0&mimetype=plaintext" },
+    { "id": "easylist-germany", "name": "EasyList Germany (DE)",           "group": "regional", "priority": 30, "engine": "dnr", "defaultEnabled": true,
+      "url": "https://easylist.to/easylistgermany/easylistgermany.txt" },
+    { "id": "liste-fr",         "name": "Liste FR (FR)",                   "group": "regional", "priority": 31, "engine": "dnr", "defaultEnabled": false,
+      "url": "https://easylist-downloads.adblockplus.org/liste_fr.txt" },
+    { "id": "easylist-italy",   "name": "EasyList Italy (IT)",             "group": "regional", "priority": 32, "engine": "dnr", "defaultEnabled": false,
+      "url": "https://easylist-downloads.adblockplus.org/easylistitaly.txt" },
+    { "id": "easylist-spanish", "name": "EasyList Spanish (ES)",           "group": "regional", "priority": 33, "engine": "dnr", "defaultEnabled": false,
+      "url": "https://easylist-downloads.adblockplus.org/easylistspanish.txt" },
+    { "id": "easylist-dutch",   "name": "EasyList Dutch (NL)",             "group": "regional", "priority": 34, "engine": "dnr", "defaultEnabled": false,
+      "url": "https://easylist-downloads.adblockplus.org/easylistdutch.txt" },
+    { "id": "easylist-cookie",  "name": "EasyList Cookie notices (annoyances)", "group": "annoyances", "priority": 40, "engine": "dnr", "defaultEnabled": false,
+      "url": "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt" }
+  ]
+}
