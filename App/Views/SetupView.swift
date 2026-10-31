@@ -64,7 +64,7 @@ struct SetupView: View {
 
     private func step(_ n: Int, _ text: LocalizedStringKey) -> some View {
         HStack(alignment: .firstTextBaseline, spacing: 10) {
-            Text("\(n)").font(.caption.bold()).frame(width: 20, height: 20).background(Circle().fill(.tint.opacity(0.2)))
+            Text("\(n)").font(.caption.bold()).frame(width: 20, height: 20).background(Circle().fill(Color.accentColor.opacity(0.2)))
             Text(text)
         }
     }
