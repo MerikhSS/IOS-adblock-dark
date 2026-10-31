@@ -4,7 +4,8 @@
 #   make project           generate AdBlockDark.xcodeproj with XcodeGen
 #   make project-overflow  same, plus the optional overflow Content Blocker target
 #   make test              run converter + background unit tests
-#   make smoke             run content scripts in Chromium (needs: npm i -g playwright)
+#   make smoke             run content scripts in Chromium
+#                          (one-time: cd filters && npm i --no-save playwright && npx playwright install chromium)
 #   make vendor            update vendored Dark Reader
 #   make icons             regenerate icons (needs Pillow: pip3 install pillow)
 

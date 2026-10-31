@@ -247,3 +247,18 @@ test('host-app inbox is merged once (rev), and state is published', async () => 
   await env.settle();
   assert.strictEqual(env.store.settings.rev, rev);
 });
+
+test('concurrent changes are coalesced and every caller gets an answer', async () => {
+  const env = makeEnv();
+  await env.settle();
+  const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('a caller never got a response')), 3000));
+  const all = Promise.all([
+    env.send({ type: 'setSiteDark', host: 'a.test', mode: 'on' }),
+    env.send({ type: 'setSiteDark', host: 'b.test', mode: 'on' }),
+    env.send({ type: 'setAllowlisted', host: 'c.test', allowlisted: true }),
+  ]);
+  const res = await Promise.race([all, timeout]);
+  assert.ok(res.every((r) => r && r.ok));
+  await env.settle();
+  assert.deepStrictEqual(env.registered.find((r) => r.id === 'abd-dark-filter').matches.sort(), ['*://*.a.test/*', '*://*.b.test/*']);
+});

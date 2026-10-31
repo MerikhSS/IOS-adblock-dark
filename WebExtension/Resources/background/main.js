@@ -12,15 +12,25 @@
   let applyTimer = 0;
   let applyChain = Promise.resolve();
   let lastApplyError = null;
+  // Coalesce bursts of changes into one apply, but resolve EVERY caller.
+  let pending = { resolvers: [], reasons: [], force: false };
 
   function scheduleApply(reason, force) {
     clearTimeout(applyTimer);
+    pending.reasons.push(reason);
+    pending.force = pending.force || !!force;
     return new Promise((resolve) => {
+      pending.resolvers.push(resolve);
       applyTimer = setTimeout(() => {
-        applyChain = applyChain.then(() => applyAll(reason, force)).catch((e) => {
-          lastApplyError = String(e && e.message || e);
-          console.error('applyAll', e);
-        }).then(resolve);
+        const batch = pending;
+        pending = { resolvers: [], reasons: [], force: false };
+        applyChain = applyChain
+          .then(() => applyAll(Array.from(new Set(batch.reasons)).join(','), batch.force))
+          .catch((e) => {
+            lastApplyError = String(e && e.message || e);
+            console.error('applyAll', e);
+          })
+          .then(() => batch.resolvers.forEach((r) => r()));
       }, 50);
     });
   }
@@ -28,12 +38,14 @@
   async function applyAll(reason, force) {
     const settings = await ABD.settings.get();
     const index = await ABD.dnr.loadIndex();
-    await ABD.cosmeticStore.ensureListData(index);
+    // Network rules first: they matter most and don't depend on cosmetic data.
     const enabled = await ABD.dnr.applyRulesets(settings);
     const dyn = await ABD.dnr.applyDynamic(settings);
+    await ABD.registrations.sync(settings, enabled, index, force);
+    // Cosmetic data (slow only on first install / after an update).
+    await ABD.cosmeticStore.ensureListData(index);
     await ABD.cosmeticStore.applyCustom(dyn.cosmetic);
     await ABD.cosmeticStore.setEnabledLists(enabled, settings);
-    await ABD.registrations.sync(settings, enabled, index, force);
     lastApplyError = null;
     await api.storage.local.set({ lastApply: { at: new Date().toISOString(), reason } });
   }
