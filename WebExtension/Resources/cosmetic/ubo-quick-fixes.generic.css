@@ -1,0 +1,9 @@
+.impfy-player,
+img[height="   250"][width="   300"],
+img[height="   90"][width="   728"],
+amp-img[height="   120"],
+amp-img[width="   300"],
+amp-img[width="   336"],
+div[id][class][style^="display"][style*="hidden"][style*="width:   "],
+ins[id][style*="--gn-ov-ad-height"]
+{display:none!important}
